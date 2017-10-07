@@ -1,0 +1,53 @@
+<% layout('layout') -%>
+<% block('title',page_title) %>
+<% need_ziggeo = 1 %>
+            <div id="content" class="container">
+                <h1 class="page-header"><%=page_title%></h1>
+                <div class="row">
+                <% for(var i =0; i < videos.length; i++){ %>
+                    <div class="col-xs-12 col-sm-6 col-md-4" id="container-<%=videos[i].token%>">
+                        <div class="thumbnail">
+                            <ziggeoplayer
+                                ziggeo-video='<%= videos[i].token %>'
+                                ziggeo-theme="modern"
+                            ></ziggeoplayer>
+                            <div class="caption">
+                                <p>
+                                    <% if (videos[i].approved == null){ %>
+                                        <a class="approve-btn btn btn-xs btn-success" data-videoid="<%= videos[i].token %>">Approve Video</a>
+                                        <a class="reject-btn btn btn-xs btn-danger" data-videoid="<%= videos[i].token %>">Reject Video</a>
+                                    <% }else if(videos[i].approved == true){ %>
+                                        <a class="approve-btn btn btn-xs btn-success" data-videoid="<%= videos[i].token %>">Approved Video &#10004;</a>
+                                        <a class="reject-btn btn btn-xs btn-danger" data-videoid="<%= videos[i].token %>">Reject Video</a>
+                                    <% }else if(videos[i].approved == false){ %>
+                                        <a class="approve-btn btn btn-xs btn-success" data-videoid="<%= videos[i].token %>">Approve Video</a>
+                                        <a class="reject-btn btn btn-xs btn-danger" data-videoid="<%= videos[i].token %>">Rejected Video &#10006;</a>
+                                    <% }%>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+                </div>
+            </div>
+            <script type="text/javascript">
+                var approveBtn, rejectBtn;
+                $(document).ready (function (){
+                    $('.approve-btn').click (function (){
+                        approveBtn = $(this);
+                        var video_id = approveBtn.data('videoid');
+                        approveBtn.html('Approving...');
+                        $.ajax({url: '/approve/'+video_id,method: "POST"}).done(function(){
+                            approveBtn.html('Approved Video &#10004;');
+                        });
+                    });
+                    $('.reject-btn').click (function (){
+                        rejectBtn = $(this);
+                        var video_id = rejectBtn.data('videoid');
+                        rejectBtn.html('Rejecting...');
+                        $.ajax({url: '/reject/'+video_id,method: "POST"}).done(function(){
+                            rejectBtn.html('Rejected Video &#10006');
+                        });
+                    });
+                });
+            </script>

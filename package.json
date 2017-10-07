@@ -1,0 +1,19 @@
+{
+  "name": "ZiggeoDemoAppNodeJS",
+  "version": "1.0.0",
+  "description": "Ziggeo Node Sample Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ibnu Triyono",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "ejs": "^2.5.7",
+    "ejs-locals": "^1.0.2",
+    "express": "^4.15.4",
+    "request": "^2.81.0",
+    "ziggeo": "0.0.20"
+  }
+}

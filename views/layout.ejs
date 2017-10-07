@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title><%=blocks.title%></title>
+        <link rel="shortcut icon" href="/static/favicon.ico">
+        <link rel="stylesheet" href="/static/bootstrap.min.css" />
+        <link rel="stylesheet" href="/static/style.css" />
+        <script src="/static/jquery.min.js"></script>
+        <% if(need_ziggeo != undefined) { %>
+            <% if (need_ziggeo == 1) { %>
+                <link rel="stylesheet" href="//assets-cdn.ziggeo.com/v2-stable/ziggeo.css" />
+                <script src="//assets-cdn.ziggeo.com/v2-stable/ziggeo.js"></script>
+                <script>// for Version 1 use ZiggeoApi.token = "<%=ziggeo_api_token%>";</script>
+                <script>var application = new ZiggeoApi.V2.Application({token: "<%=ziggeo_api_token%>" });</script>
+            <% } %>
+        <% } %>
+    </head>
+    <body>
+        <div id="page-wrapper">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Zigeo</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">Ziggeo</a>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a class="btn btn-xs btn-link" href="/">Home</a></li>
+                            <li><a class="btn btn-xs btn-link" href="/videos">Videos</a></li>
+                            <li><a class="btn btn-xs btn-link" href="/record">Record Video</a></li>
+                            <li><a class="btn btn-xs btn-link" href="/upload">Upload Video</a></li>
+                            <li><a class="btn btn-xs btn-link" href="/approve">Approve Video</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+            
+            <%-body -%>
+
+            <div id="footer" class="container">
+                <hr class="separator"/>
+                &copy; Copyright 2017 by <a class="btn btn-link btn-xs" href="https://ziggeo.com">Ziggeo Inc.</a>
+                <script src="/static/bootstrap.min.js"></script>
+            </div>
+            <script type="text/javascript">
+                application.on("error", function ( status_code, message ) {
+                    console.log(message)
+                });
+            </script>
+        </div>
+    </body>
+</html>
