@@ -48,10 +48,40 @@ App.get ('/video/:videoId', function (req, res){
 	})
 })
 
+App.get ('/video/:videoId/stream/:stream_id', function (req, res){
+	var video_id = req.params.videoId
+	var stream_id = req.params.stream_id
+	res.render ('stream',{
+		ziggeo_api_token: process.env.API_TOKEN,
+		page_title: 'Single stream via Ziggeo version 2',
+		video_id: video_id,
+		stream_id: stream_id,
+		need_ziggeo: 1
+	})
+})
+
 App.delete ('/video/:videoId', function (req, res){
 	var video_id = req.params.videoId
 	ZiggeoSdk.Videos.destroy (video_id, function (data){
 		res.send('ok')
+	})
+})
+
+App.get ('/streams/:videoId', function (req, res){
+	var video_id = req.params.videoId
+	ZiggeoSdk.Streams.index(video_id, {states:"ready"}, {
+		success: function(index){
+			res.render('streams', {
+				ziggeo_api_token: process.env.API_TOKEN,
+				page_title: 'Ziggeo Single Streams',
+				need_ziggeo: 1,
+				video_token: video_id,
+				videos: index
+			})	
+		},
+		failure: function(){
+			
+		}
 	})
 })
 
