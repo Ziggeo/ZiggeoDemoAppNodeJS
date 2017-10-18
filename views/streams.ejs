@@ -8,17 +8,13 @@
                     <div class="col-xs-12 col-sm-6 col-md-4" id="container-<%=videos[i].token%>">
                         <div class="thumbnail">
                             <ziggeoplayer
-                                ziggeo-video='<%= videos[i].token %>'
+                                ziggeo-video='<%= video_token %>'
+                                ziggeo-stream='<%= videos[i].token %>'
                                 ziggeo-theme="modern"
                             ></ziggeoplayer>
                             <div class="caption">
                                 <p>
-                                    <a href="/video/<%= videos[i].token %>" class="btn btn-xs btn-success">Single Video</a>
-                                    <a href="/download-video/<%= videos[i].token %>" class="btn btn-xs btn-warning" download>Download Video</a>
-
-                                    <a href="/download-image/<%= videos[i].token %>" class="btn btn-xs btn-primary" download>Download Image</a>
-                                    <a class="delete-btn btn btn-xs btn-danger" data-videoid="<%= videos[i].token %>">Delete Video</a>
-                                    <a href="/streams/<%= videos[i].token %>" class="btn btn-xs btn-primary">View All Streams</a>
+                                    <a href="/video/<%= video_token %>/stream/<%= videos[i].token %>" class="btn btn-xs btn-success">Single Stream</a>
                                 </p>
                             </div>
                         </div>
