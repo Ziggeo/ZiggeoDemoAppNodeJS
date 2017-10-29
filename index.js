@@ -1,6 +1,7 @@
 const Express = require ('express')
 const App = Express ()
 const Request = require ('request')
+const BodyParser = require('body-parser')
 const ZiggeoSdk = require ('ziggeo')
 const Fs = require ('fs')
 
@@ -10,6 +11,8 @@ ZiggeoSdk.init (process.env.API_TOKEN, process.env.PRIVATE_KEY)
 
 App.engine ('ejs', require('ejs-locals'));
 App.set ('view engine', 'ejs')
+App.use(BodyParser.json())
+App.use(BodyParser.urlencoded({extended: true}))
 
 App.get ('/', function (req, res) {
   	res.render('home', {
@@ -40,12 +43,48 @@ App.get ('/videos', function (req, res){
 
 App.get ('/video/:videoId', function (req, res){
 	var video_id = req.params.videoId
-	res.render ('video',{
-		ziggeo_api_token: process.env.API_TOKEN,
-		page_title: 'Single video via Ziggeo version 2',
-		video_id: video_id,
-		need_ziggeo: 1
+	ZiggeoSdk.Videos.get(video_id, function(data){
+		var key = (data.key !== null)?data.key:""
+		var tags = (data.tags !== null)?data.tags:""
+		res.render ('video',{
+			ziggeo_api_token: process.env.API_TOKEN,
+			page_title: 'Single video via Ziggeo version 2',
+			video_id: video_id,
+			need_ziggeo: 1,
+			update_result: 0,
+			key:key,
+			tags:tags
+		})
 	})
+})
+
+App.post ('/video/:videoId', function (req, res){
+	var video_id = req.params.videoId
+	var tags = req.body.tags
+	var key = req.body.key
+	var updateArguments = {}
+	if(tags !== '' && tags !== undefined){
+		updateArguments.tags = tags
+	}
+	if(key !== '' && key !== undefined){
+		updateArguments.key = key
+	}
+	ZiggeoSdk.Videos.update(video_id,updateArguments, function(){
+		ZiggeoSdk.Videos.get(video_id, function(data){
+			var key = (data.key !== null)?data.key:""
+			var tags = (data.tags !== null)?data.tags:""
+			res.render ('video',{
+				ziggeo_api_token: process.env.API_TOKEN,
+				page_title: 'Single video via Ziggeo version 2',
+				video_id: video_id,
+				need_ziggeo: 1,
+				update_result: 'success',
+				key:key,
+				tags:tags
+			})
+		})
+	})
+	
 })
 
 App.get ('/video/:videoId/stream/:stream_id', function (req, res){
