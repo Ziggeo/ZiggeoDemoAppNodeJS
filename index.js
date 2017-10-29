@@ -43,12 +43,16 @@ App.get ('/videos', function (req, res){
 
 App.get ('/video/:videoId', function (req, res){
 	var video_id = req.params.videoId
-	res.render ('video',{
-		ziggeo_api_token: process.env.API_TOKEN,
-		page_title: 'Single video via Ziggeo version 2',
-		video_id: video_id,
-		need_ziggeo: 1,
-		update_result: 0
+	ZiggeoSdk.Videos.get(video_id, function(data){
+		var key = (data.key !== null)?data.key:"";
+		res.render ('video',{
+			ziggeo_api_token: process.env.API_TOKEN,
+			page_title: 'Single video via Ziggeo version 2',
+			video_id: video_id,
+			need_ziggeo: 1,
+			update_result: 0,
+			key:key
+		})
 	})
 })
 
