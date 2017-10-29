@@ -44,14 +44,16 @@ App.get ('/videos', function (req, res){
 App.get ('/video/:videoId', function (req, res){
 	var video_id = req.params.videoId
 	ZiggeoSdk.Videos.get(video_id, function(data){
-		var key = (data.key !== null)?data.key:"";
+		var key = (data.key !== null)?data.key:""
+		var tags = (data.tags !== null)?data.tags:""
 		res.render ('video',{
 			ziggeo_api_token: process.env.API_TOKEN,
 			page_title: 'Single video via Ziggeo version 2',
 			video_id: video_id,
 			need_ziggeo: 1,
 			update_result: 0,
-			key:key
+			key:key,
+			tags:tags
 		})
 	})
 })
@@ -68,13 +70,19 @@ App.post ('/video/:videoId', function (req, res){
 		updateArguments.key = key
 	}
 	ZiggeoSdk.Videos.update(video_id,updateArguments, function(){
-		res.render ('video',{
-			ziggeo_api_token: process.env.API_TOKEN,
-			page_title: 'Single video via Ziggeo version 2',
-			video_id: video_id,
-			need_ziggeo: 1,
-			update_result: 'success'
-		})	
+		ZiggeoSdk.Videos.get(video_id, function(data){
+			var key = (data.key !== null)?data.key:""
+			var tags = (data.tags !== null)?data.tags:""
+			res.render ('video',{
+				ziggeo_api_token: process.env.API_TOKEN,
+				page_title: 'Single video via Ziggeo version 2',
+				video_id: video_id,
+				need_ziggeo: 1,
+				update_result: 'success',
+				key:key,
+				tags:tags
+			})
+		})
 	})
 	
 })
