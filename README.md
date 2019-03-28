@@ -5,7 +5,7 @@ This is a sample application to show you how to use our API using node.js. It ha
 This application is using:
 
  * Node.js / [express](https://expressjs.com/)
- * [EJS template](http://www.embeddedjs.com/)
+ * [EJS template](https://ejs.co/)
  * [Ziggeo Node SDK](https://www.npmjs.com/package/ziggeo)
 
 ### Setting up variables
