@@ -21,6 +21,8 @@ This will install any library required from npmjs.org
 $ npm install
 ```
 
+Then make sure `temp_video/` folder is writeable by your code.
+
 ### Running
 
 This command will run the our application.
